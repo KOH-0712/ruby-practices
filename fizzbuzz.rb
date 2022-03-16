@@ -1,17 +1,14 @@
 #!/usr/bin/env ruby
 
-@number = 1
-
-(@number..20).each do |i|
-  if @number % 3 == 0 && @number % 5 == 0
+(1..20).each do |i|
+  if i % 3 == 0 && i % 5 == 0
     puts "FizzBuzz"
-  elsif @number % 3 == 0
+  elsif i % 3 == 0
     puts "Fizz"
-  elsif @number % 5 == 0
+  elsif i % 5 == 0
     puts "Buzz"
   else
-    puts @number
+    puts i
   end
-  @number += 1
 end
 

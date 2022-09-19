@@ -4,30 +4,32 @@ require 'optparse'
 
 params = ARGV.getopts("", "y:#{Date.today.year}", "m:#{Date.today.month}")
 
-month_year = [params["m"] + "月", params["y"]]
+month = params["m"]
+year = params["y"]
+
 days_of_the_week = ["日", "月", "火", "水", "木", "金", "土"]
 
-6.times {print " "} 
-puts month_year.join(" ")
+print(" " * 6)
+puts "#{month}月 #{year}"
 puts days_of_the_week.join(" ")
 
-first_day = Date.new(params["y"].to_i, params["m"].to_i, 1)
-last_day = Date.new(params["y"].to_i, params["m"].to_i, -1) 
+first_day = Date.new(year.to_i, month.to_i, 1)
+last_day = Date.new(year.to_i, month.to_i, -1)
 
-def blank(x)
+def blank (x)
   (x * 3).times {print " "}
 end
 
 blank(first_day.wday)
 
 (first_day..last_day).each do |date|
-  if "#{date.day}".length == 1
+  if date.day.to_s.length == 1
     print " "
   end
   print date.day
   print " "
   if date.wday == 6
-    puts "\n"
+    print "\n"
   end
 end
 

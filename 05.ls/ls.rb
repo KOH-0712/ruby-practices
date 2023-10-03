@@ -1,37 +1,35 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-files = Dir.glob('*')
-
-def max_letter(files)
-  files.max_by(&:length).length
-end
-
-max_letter = max_letter(files)
-
-def number_of_files(files)
-  files.length
-end
-
-number_of_files = number_of_files(files)
-
 MAX_COLUMN = 3
 
-def line(number_of_files)
-  (number_of_files.to_f / MAX_COLUMN).ceil
+class LsCommand1
+  def initialize
+    @files = Dir.glob('*')
+    max_letter = @files.max_by(&:length).length
+    @ljust_files = @files.map { |x| x.ljust(max_letter) }
+  end
+
+  def decide_lines
+    number_of_files = @files.length
+    number_of_files.ceildiv(MAX_COLUMN)
+  end
+
+  def arrange_files(line)
+    sliced_files = @ljust_files.each_slice(line).to_a
+    sliced_files.each { |a| a[line - 1] = nil if a.length < line }
+    sliced_files.transpose
+  end
+
+  def output_files(transposed_files)
+    fixed_files = (transposed_files.map { |x| x.join(' ') })
+    puts fixed_files
+  end
 end
 
-line = line(number_of_files)
-
-ljust_files = files.map { |x| x.ljust(max_letter) }
-
-sliced_files = ljust_files.each_slice(line).to_a
-
-# 二次元配列内の要素数が行数より少ない時にnilを入れる。
-sliced_files.each { |a| a[line - 1] = nil if a.length < line }
-
-transposed_files = sliced_files.transpose
-
-fixed_files = (transposed_files.map { |x| x.join(' ') })
-
-puts fixed_files
+if __FILE__ == $PROGRAM_NAME
+  result = LsCommand1.new
+  line = result.decide_lines
+  transposed_files = result.arrange_files(line)
+  result.output_files(transposed_files)
+end

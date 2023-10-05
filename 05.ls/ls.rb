@@ -20,9 +20,9 @@ def output_files(transposed_files)
   puts fixed_files
 end
 
-if __FILE__ == $PROGRAM_NAME
-  files = Dir.glob('*')
-  line = decide_lines(files)
-  transposed_files = arrange_files(files, line)
-  output_files(transposed_files)
-end
+option = ARGV[0]
+files = Dir.glob('*') if option.nil?
+files = Dir.entries('.') if option == '-a'
+line = decide_lines(files)
+transposed_files = arrange_files(files, line)
+output_files(transposed_files)

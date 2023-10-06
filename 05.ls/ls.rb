@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+require 'optparse'
+
 MAX_COLUMN = 3
 
 def decide_lines(files)
@@ -20,9 +22,13 @@ def output_files(transposed_files)
   puts fixed_files
 end
 
-option = ARGV[0]
-files = Dir.glob('*') if option.nil?
-files = Dir.entries('.') if option == '-a'
+option = {}
+opt = OptionParser.new
+opt.on('-a') { |v| option[:a] = v }
+opt.parse!(ARGV)
+
+files = Dir.glob('*') if option == {}
+files = Dir.glob(['.*', '*']) if option[:a]
 line = decide_lines(files)
 transposed_files = arrange_files(files, line)
 output_files(transposed_files)

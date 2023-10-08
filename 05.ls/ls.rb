@@ -28,7 +28,7 @@ opt.on('-a') { |v| option[:a] = v }
 opt.parse!(ARGV)
 
 files = Dir.glob('*') if option == {}
-files = Dir.glob(['.*', '*']) if option[:a]
+files = Dir.glob('*', File::FNM_DOTMATCH) if option[:a]
 line = decide_lines(files)
 transposed_files = arrange_files(files, line)
 output_files(transposed_files)

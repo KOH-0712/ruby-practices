@@ -5,7 +5,7 @@ require 'optparse'
 
 MAX_COLUMN = 3
 
-def decide_lines(files_in_current_path)
+def get_lines_for_print(files_in_current_path)
   number_of_files = files_in_current_path.length
   number_of_files.ceildiv(MAX_COLUMN)
 end
@@ -29,6 +29,6 @@ opt.parse!(ARGV)
 
 flags = params['a'] ? File::FNM_DOTMATCH : 0
 files_in_current_path = Dir.glob('*', flags)
-line = decide_lines(files_in_current_path)
+line = get_lines_for_print(files_in_current_path)
 transposed_files = arrange_files(files_in_current_path, line)
 output_files(transposed_files)

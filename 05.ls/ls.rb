@@ -24,11 +24,11 @@ end
 
 params = {}
 opt = OptionParser.new
-opt.on('-a') { |v| params['a'] = v }
+opt.on('-r') { |v| params['r'] = v }
 opt.parse!(ARGV)
 
-flags = params['a'] ? File::FNM_DOTMATCH : 0
-files_in_current_path = Dir.glob('*', flags)
+files_in_current_path = Dir.glob('*')
+files_in_current_path = files_in_current_path.reverse if params['r']
 line = get_lines_for_print(files_in_current_path)
 transposed_files = arrange_files(files_in_current_path, line)
 output_files(transposed_files)
